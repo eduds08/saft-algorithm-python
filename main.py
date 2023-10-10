@@ -58,7 +58,7 @@ def saft(g, x, z, cl, T):
         for zz in range(z.size):
             for xx in range(x.size):
                 delays[zz, xx] = round(((math.sqrt(
-                    (z[zz, 0] - z[transd, 0]) ** 2 + (x[xx, 0] - x[transd, 0]) ** 2) * 2) / cl) / T)
+                    (z[zz, 0] - z[0, 0]) ** 2 + (x[xx, 0] - x[transd, 0]) ** 2) * 2) / cl) / T)
                 if delays[zz, xx] <= 399:
                     f[zz, xx] += g[delays[zz, xx], transd]
         if transd == 0:
