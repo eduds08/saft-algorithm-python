@@ -2,33 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io
 import math
-from PIL import Image
-import cv2
-
-
-# def create_gif_and_video(total_time):
-#     images_for_gif = []
-#     images_for_video = []
-#     for t in range(total_time):
-#         images_for_gif.append(Image.open(f"images/plot_{t}.png"))
-
-#         img = cv2.imread(f"images/plot_{t}.png")
-#         height, width, layers = img.shape
-#         size = (width, height)
-#         images_for_video.append(img)
-
-#     out = cv2.VideoWriter(
-#         'project.avi', cv2.VideoWriter_fourcc(*'DIVX'), 15, size)
-
-#     for i in range(len(images_for_video)):
-#         out.write(images_for_video[i])
-#     out.release()
-
-#     images_for_gif[0].save('simulation.gif', format='GIF',
-#                            append_images=images_for_gif[1:],
-#                            save_all=True,
-#                            duration=50, loop=0)
-
 
 file = "DadosEnsaio.mat"
 
@@ -57,15 +30,11 @@ def saft(g, x, z, cl, T):
     for transd in range(x.size):
         for zz in range(z.size):
             for xx in range(x.size):
-                delays[zz, xx] = round(((math.sqrt(
-                    (z[zz, 0] - z[0, 0]) ** 2 + (x[xx, 0] - x[transd, 0]) ** 2) * 2) / cl) / T)
+                r = math.sqrt(z[zz, 0] ** 2 + (x[xx, 0] -
+                              x[transd, 0]) ** 2) - z[0, 0]
+                delays[zz, xx] = round(r * 2 / cl / T)
                 if delays[zz, xx] <= 399:
                     f[zz, xx] += g[delays[zz, xx], transd]
-        if transd == 0:
-            plt.figure()
-            plt.imshow(f, aspect='auto')
-            plt.title('Primeira aquisição')
-            plt.show()
 
     return f
 
@@ -75,5 +44,3 @@ plt.figure()
 plt.imshow(f, aspect='auto')
 plt.title('SAFT')
 plt.show()
-
-# create_gif_and_video(x.size)
