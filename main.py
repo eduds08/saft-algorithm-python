@@ -24,7 +24,7 @@ plt.show()
 
 def saft(g, x, z, cl, T):
 
-    delays = np.zeros((400, 31), dtype=np.int64)
+    delays = np.zeros_like(g, dtype=np.int64)
     f = np.zeros_like(g)
 
     for transd in range(x.size):
